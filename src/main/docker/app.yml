@@ -1,0 +1,21 @@
+version: '2'
+services:
+    testing-app:
+        image: testing
+        external_links:
+            - testing-mysql:mysql
+            - testing-elasticsearch:elasticsearch
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/testing?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=elasticsearch:9300
+        ports:
+            - 8080:8080
+    testing-mysql:
+        extends:
+            file: mysql.yml
+            service: testing-mysql
+    testing-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: testing-elasticsearch
